@@ -1,6 +1,6 @@
 # proyecto-jenkins — Despliegue Escalable con Kubernetes
 
-API REST en Python (FastAPI) desplegada en Kubernetes con escalabilidad automática (HPA), pipeline CI/CD con Jenkins e infraestructura como código con Terraform.
+API REST en Python (FastAPI) desplegada en Kubernetes con escalabilidad automática (HPA), pipeline CI/CD con Jenkins e infraestructura como código con Terraform. El proyecto fue implementado en dos entornos: Minikube local y Google Kubernetes Engine (GKE).
 
 **Integrantes:** Jefferson Ríos · Brayan Díaz
 
@@ -16,12 +16,12 @@ API REST en Python (FastAPI) desplegada en Kubernetes con escalabilidad automát
 
 | Herramienta | Rol |
 |---|---|
-| FastAPI + Python 3.11 | API REST |
-| Docker | Contenedorización |
-| Docker Hub | Registro de imágenes |
-| Jenkins | Pipeline CI/CD automatizado |
-| Kubernetes (Minikube) | Orquestación del cluster |
-| HPA | Escalabilidad automática (2–10 pods) |
+| FastAPI + Python 3.11 | API REST con CRUD de tareas |
+| Docker + Docker Hub | Contenedorización y registro de imagen |
+| Kubernetes (Minikube) | Orquestación local |
+| Google Cloud (GKE) | Orquestación en la nube |
+| HPA | Escalabilidad automática 2–10 pods |
+| Jenkins | Pipeline CI/CD de 6 etapas |
 | Terraform | Infraestructura como código |
 
 ---
@@ -32,11 +32,11 @@ API REST en Python (FastAPI) desplegada en Kubernetes con escalabilidad automát
 proyecto-jenkins/
 ├── app/
 │   └── app.py                 # API FastAPI
-├── tests/                     # Pruebas automatizadas
+├── tests/                     # Pruebas automatizadas (14 tests, 100% coverage)
 ├── kubernetes/
-│   ├── deployment.yaml        # Despliegue de la app
-│   ├── service.yaml           # Exposición del servicio
-│   └── hpa.yaml               # Escalabilidad automática
+│   ├── deployment.yaml        # Despliegue de la app (3 réplicas)
+│   ├── service.yaml           # Exposición del servicio (LoadBalancer :80)
+│   └── hpa.yaml               # Escalabilidad automática (2–10 pods)
 ├── terraform/
 │   ├── main.tf                # Genera configuración IaC
 │   ├── variables.tf           # Variables: app, imagen, réplicas, puertos
@@ -45,7 +45,7 @@ proyecto-jenkins/
 ├── docs/
 │   └── arquitectura.svg       # Diagrama de arquitectura
 ├── Dockerfile
-├── Jenkinsfile                # Pipeline CI/CD
+├── Jenkinsfile                # Pipeline CI/CD (6 etapas)
 └── requirements.txt
 ```
 
@@ -62,36 +62,28 @@ Antes de ejecutar, reemplaza `tu-usuario` con tu nombre de usuario de Docker Hub
 
 ## Pipeline CI/CD (Jenkins)
 
-El `Jenkinsfile` define 6 etapas que se ejecutan automáticamente en cada push a la rama `main` mediante webhook de GitHub.
+El `Jenkinsfile` define 6 etapas que se ejecutan automáticamente en cada push a `main` mediante webhook de GitHub.
 
-| Etapa | Comando | Descripción |
+| Etapa | Comando | Resultado |
 |---|---|---|
-| **Checkout** | `checkout scm` | Clona el código fuente desde GitHub |
-| **Build** | `pip install -r requirements.txt` | Instala dependencias de Python |
-| **Test** | `pytest tests/ --cov=app` | Ejecuta pruebas con cobertura de código |
-| **Terraform Validate** | `terraform init && validate` | Valida la configuración IaC |
-| **Kubernetes Validation** | `type kubernetes/*.yaml` | Verifica que los manifiestos existen |
-| **Deploy Simulation** | `echo` | Simula el despliegue mostrando info por consola |
-
-### Ejecutar Jenkins
+| **Checkout** | `checkout scm` | Clona código desde GitHub |
+| **Build** | `pip install -r requirements.txt` | Instala dependencias |
+| **Test** | `pytest tests/ --cov=app` | 14/14 PASSED, 100% coverage |
+| **Terraform Validate** | `terraform init && validate` | Configuration is valid |
+| **Kubernetes Validation** | `type kubernetes/*.yaml` | Manifiestos verificados |
+| **Deploy Simulation** | `echo` | Build #6 — Finished: SUCCESS |
 
 ```bash
-# Iniciar Jenkins (requiere Java)
+# Iniciar Jenkins
 java -jar jenkins.war
-
-# Acceder a la interfaz web
-# http://localhost:8080
+# Acceder: http://localhost:8080
 ```
-
-### Trigger automático
-
-Cada `git push` a `main` dispara el pipeline automáticamente a través del webhook configurado en GitHub → Jenkins.
 
 ---
 
 ## Despliegue local (Minikube)
 
-### 1. Requisitos
+### Requisitos
 
 ```bash
 docker --version     # Docker 20+
@@ -99,72 +91,60 @@ kubectl version      # kubectl 1.25+
 minikube version     # Minikube 1.30+
 ```
 
-### 2. Construir y publicar la imagen
+### Comandos
 
 ```bash
+# Construir y publicar imagen
 docker build -t tu-usuario/test-api:latest .
 docker push tu-usuario/test-api:latest
-```
 
-### 3. Iniciar Minikube y habilitar métricas
-
-```bash
+# Iniciar Minikube
 minikube start --cpus=2 --memory=4096
 minikube addons enable metrics-server
-```
 
-### 4. Desplegar en Kubernetes
-
-```bash
+# Desplegar
 kubectl apply -f kubernetes/
-kubectl get pods       # verificar pods Running
-kubectl get services   # verificar servicio
-kubectl get hpa        # verificar autoscaler
+kubectl get pods
+kubectl get services
+kubectl get hpa
+
+# Acceder a la API (mantener terminal abierta)
+minikube service test-api-service
+# Swagger UI: http://127.0.0.1:<PUERTO>/docs
 ```
 
-### 5. Acceder a la API
+---
+
+## Despliegue en Google Cloud (GKE)
 
 ```bash
-# Abrir túnel (mantener esta terminal abierta)
-minikube service test-api-service
+# Autenticar en Google Cloud
+gcloud auth login
+gcloud config set project TU_PROJECT_ID
 
-# En otra terminal
-curl http://127.0.0.1:<PUERTO>/
-curl http://127.0.0.1:<PUERTO>/health
-curl http://127.0.0.1:<PUERTO>/tasks
+# Obtener credenciales del cluster
+gcloud container clusters get-credentials CLUSTER_NAME --region REGION
 
-# Swagger UI — abrir en el navegador
-# http://127.0.0.1:<PUERTO>/docs
+# Desplegar los mismos manifiestos
+kubectl apply -f kubernetes/
+kubectl get pods
+kubectl get services
+kubectl get hpa
 ```
 
 ---
 
 ## Infraestructura como código (Terraform)
 
-Terraform gestiona la configuración del despliegue de forma declarativa y versionada.
-
-### Archivos
-
-| Archivo | Descripción |
-|---|---|
-| `variables.tf` | Variables: nombre de app, entorno, imagen, réplicas y puertos |
-| `main.tf` | Genera el archivo de configuración del despliegue |
-| `outputs.tf` | Expone los valores clave tras aplicar la configuración |
-| `terraform.tfvars` | Valores concretos de las variables para este proyecto |
-
-### Ejecutar Terraform
-
 ```bash
 cd terraform/
-
 terraform init     # inicializar proveedores
 terraform plan     # previsualizar cambios
 terraform apply    # aplicar configuración
 terraform output   # ver outputs
 ```
 
-### Outputs disponibles
-
+**Outputs:**
 ```
 application_name       = "proyecto-jenkins"
 deployment_environment = "produccion"
@@ -191,11 +171,9 @@ desired_replicas       = 3
 ## Prueba de escalabilidad (HPA)
 
 ```bash
-# Generar carga
 kubectl run load-generator --image=busybox:1.28 --restart=Never \
   -- /bin/sh -c "while true; do wget -q -O- http://test-api-service:80/tasks; done"
 
-# Observar escalado automático (en otra terminal)
 kubectl get hpa -w
 ```
 
@@ -205,8 +183,8 @@ kubectl get hpa -w
 cpu: 2%/50%    →  2 pods  (reposo)
 cpu: 148%/50%  →  4 pods  (HPA detecta sobrecarga)
 cpu: 148%/50%  →  6 pods  (continúa escalando)
-cpu: 66%/50%   →  8 pods  (más pods absorben la carga)
-cpu: 1%/50%    →  2 pods  (scale down tras periodo de enfriamiento)
+cpu: 66%/50%   →  8 pods  (absorbe la carga)
+cpu: 1%/50%    →  2 pods  (scale down tras enfriamiento)
 ```
 
 ---
@@ -214,24 +192,21 @@ cpu: 1%/50%    →  2 pods  (scale down tras periodo de enfriamiento)
 ## Prueba de resiliencia
 
 ```bash
-# Eliminar un pod manualmente
 kubectl delete pod <nombre-del-pod>
-
-# Verificar que se recrea automáticamente
 kubectl get pods -w
 ```
 
-Kubernetes recrea el pod eliminado en menos de 15 segundos sin intervención manual.
+Kubernetes recrea el pod eliminado en menos de 15 segundos sin intervención manual. Validado en Minikube y en GKE.
 
 ---
 
 ## Reflexión final
 
 **¿Cómo mejorarías el uso de recursos?**
-Ajustando los límites de CPU/memoria en el `deployment.yaml` según el perfil real de la aplicación, y configurando el HPA con métricas personalizadas (peticiones por segundo) además de CPU.
+Configurar el HPA con métricas personalizadas (peticiones por segundo) y usar autoscaling de nodos en GKE para aprovisionar recursos solo cuando sea necesario.
 
 **¿Qué ventajas tiene IaC con Terraform?**
-Permite reproducir la configuración del despliegue en cualquier entorno con un solo comando, versionarla en Git y hacer rollback si algo falla, eliminando la configuración manual y sus errores asociados.
+Reproducibilidad total con un solo comando, versionamiento en Git y portabilidad entre entornos — los mismos manifiestos funcionaron en Minikube y en GKE sin modificaciones.
 
 **¿Cómo aplicarías esto en producción?**
-Usando un cluster multi-zona para alta disponibilidad, integrando el pipeline Jenkins con `kubectl apply` real en lugar de simulación, y agregando monitoreo con Prometheus y Grafana para visualizar el comportamiento del HPA en tiempo real.
+Reemplazar Deploy Simulation por `helm upgrade --install` real en GKE multi-zona, con aprobación manual antes de producción, rollback automático si el health check falla, y monitoreo con Prometheus y Grafana.
