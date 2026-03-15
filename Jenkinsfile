@@ -23,6 +23,14 @@ pipeline {
             }
         }
 
+        stage('Terraform Validate') {
+            steps {
+                echo 'Validando configuracion Terraform...'
+                bat 'cd terraform && ..\\terraform.exe init -input=false'
+                bat 'cd terraform && ..\\terraform.exe validate'
+            }
+        }
+
         stage('Kubernetes Validation') {
             steps {
                 echo 'Validando manifiestos de Kubernetes...'
