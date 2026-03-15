@@ -1,4 +1,4 @@
-<svg width="680" height="560" viewBox="0 0 680 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+<svg width="680" height="680" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -9,101 +9,180 @@
     <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
   </defs>
 
-  <!-- ── Cluster container ── -->
-  <rect x="175" y="35" width="470" height="490" rx="18" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
-  <text x="410" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Cluster Kubernetes (Minikube / GKE)</text>
+  <!-- ══ JENKINS PIPELINE (top) ══ -->
+  <rect x="30" y="28" width="622" height="140" rx="14" fill="#FFF8F0" stroke="#854F0B" stroke-width="1"/>
+  <text x="341" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#633806">Jenkins Pipeline (CI/CD)</text>
 
-  <!-- ── Usuario ── -->
-  <rect x="35" y="100" width="100" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
-  <text x="85" y="120" text-anchor="middle" font-size="12" font-weight="bold" fill="#2C2C2A">Usuario</text>
-  <text x="85" y="136" text-anchor="middle" font-size="11" fill="#5F5E5A">HTTP :80</text>
+  <!-- Stage boxes -->
+  <!-- Checkout -->
+  <rect x="42" y="62" width="88" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+  <text x="86" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Checkout</text>
+  <text x="86" y="96" text-anchor="middle" font-size="9" fill="#854F0B">git clone</text>
 
-  <!-- ── Docker Hub ── -->
-  <rect x="35" y="390" width="100" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
-  <text x="85" y="410" text-anchor="middle" font-size="12" font-weight="bold" fill="#0C447C">Docker Hub</text>
-  <text x="85" y="426" text-anchor="middle" font-size="11" fill="#185FA5">tu-usuario/test-api</text>
+  <line x1="130" y1="84" x2="142" y2="84" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow-amber)"/>
 
-  <!-- ── Service ── -->
-  <rect x="270" y="100" width="160" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
-  <text x="350" y="121" text-anchor="middle" font-size="12" font-weight="bold" fill="#712B13">Service</text>
-  <text x="350" y="138" text-anchor="middle" font-size="11" fill="#993C1D">LoadBalancer  puerto 80</text>
+  <!-- Build -->
+  <rect x="142" y="62" width="88" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+  <text x="186" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Build</text>
+  <text x="186" y="96" text-anchor="middle" font-size="9" fill="#854F0B">pip install</text>
 
-  <!-- ── Metrics Server ── -->
-  <rect x="195" y="100" width="60" height="52" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
-  <text x="225" y="121" text-anchor="middle" font-size="11" font-weight="bold" fill="#2C2C2A">Metrics</text>
-  <text x="225" y="137" text-anchor="middle" font-size="11" fill="#5F5E5A">server</text>
+  <line x1="230" y1="84" x2="242" y2="84" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow-amber)"/>
 
-  <!-- ── HPA ── -->
-  <rect x="470" y="100" width="150" height="52" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
-  <text x="545" y="121" text-anchor="middle" font-size="12" font-weight="bold" fill="#633806">HPA</text>
-  <text x="545" y="138" text-anchor="middle" font-size="11" fill="#854F0B">Escala 2 a 10 pods</text>
+  <!-- Test -->
+  <rect x="242" y="62" width="88" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+  <text x="286" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Test</text>
+  <text x="286" y="96" text-anchor="middle" font-size="9" fill="#854F0B">pytest + cov</text>
 
-  <!-- ── Deployment ── -->
-  <rect x="470" y="210" width="150" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
-  <text x="545" y="231" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">Deployment</text>
-  <text x="545" y="248" text-anchor="middle" font-size="11" fill="#0F6E56">Gestiona replicas</text>
+  <line x1="330" y1="84" x2="342" y2="84" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow-amber)"/>
 
-  <!-- ── Pod 1 ── -->
-  <rect x="195" y="300" width="110" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-  <text x="250" y="321" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Pod 1</text>
-  <text x="250" y="338" text-anchor="middle" font-size="11" fill="#534AB7">test-api</text>
+  <!-- Terraform Validate -->
+  <rect x="342" y="62" width="88" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+  <text x="386" y="76" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Terraform</text>
+  <text x="386" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Validate</text>
+  <text x="386" y="100" text-anchor="middle" font-size="9" fill="#854F0B">init + validate</text>
 
-  <!-- ── Pod 2 ── -->
-  <rect x="320" y="300" width="110" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-  <text x="375" y="321" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Pod 2</text>
-  <text x="375" y="338" text-anchor="middle" font-size="11" fill="#534AB7">test-api</text>
+  <line x1="430" y1="84" x2="442" y2="84" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow-amber)"/>
 
-  <!-- ── Pod N ── -->
-  <rect x="455" y="300" width="110" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
-  <text x="510" y="321" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Pod N</text>
-  <text x="510" y="338" text-anchor="middle" font-size="11" fill="#534AB7">test-api</text>
+  <!-- K8s Validation -->
+  <rect x="442" y="62" width="88" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+  <text x="486" y="76" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Kubernetes</text>
+  <text x="486" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Validation</text>
+  <text x="486" y="100" text-anchor="middle" font-size="9" fill="#854F0B">verifica YAMLs</text>
 
-  <!-- dots -->
-  <text x="443" y="328" text-anchor="middle" font-size="14" fill="#888780">···</text>
+  <line x1="530" y1="84" x2="542" y2="84" stroke="#854F0B" stroke-width="1.2" marker-end="url(#arrow-amber)"/>
 
-  <!-- ── Auto-recuperacion ── -->
-  <rect x="195" y="420" width="370" height="44" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
-  <text x="380" y="447" text-anchor="middle" font-size="12" font-weight="bold" fill="#2C2C2A">Auto-recuperacion de pods ante fallos</text>
+  <!-- Deploy Simulation -->
+  <rect x="542" y="62" width="98" height="44" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.8"/>
+  <text x="591" y="76" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Deploy</text>
+  <text x="591" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#633806">Simulation</text>
+  <text x="591" y="100" text-anchor="middle" font-size="9" fill="#854F0B">consola</text>
 
-  <!-- ══ FLECHAS ══ -->
+  <!-- post -->
+  <text x="341" y="128" text-anchor="middle" font-size="10" fill="#854F0B">post: success → echo OK  |  failure → echo ERROR</text>
 
-  <!-- Usuario → Service -->
-  <line x1="135" y1="124" x2="268" y2="124" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- GitHub → Jenkins webhook -->
+  <rect x="30" y="192" width="100" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
+  <text x="80" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#2C2C2A">GitHub</text>
+  <text x="80" y="228" text-anchor="middle" font-size="11" fill="#5F5E5A">webhook push</text>
 
-  <!-- Service → Pod 1 -->
-  <line x1="310" y1="152" x2="258" y2="298" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Service → Pod 2 -->
-  <line x1="350" y1="152" x2="375" y2="298" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <!-- Service → Pod N -->
-  <line x1="390" y1="152" x2="500" y2="298" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- GitHub → Jenkins trigger -->
+  <path d="M130 216 L200 216 L200 168" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-amber)"/>
 
+  <!-- ══ Terraform IaC block ══ -->
+  <rect x="30" y="268" width="135" height="175" rx="14" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="97" y="290" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Terraform (IaC)</text>
+
+  <rect x="45" y="300" width="105" height="34" rx="6" fill="#CEC8F6" stroke="#7F77DD" stroke-width="0.8"/>
+  <text x="97" y="313" text-anchor="middle" font-size="11" font-weight="bold" fill="#26215C">variables.tf</text>
+  <text x="97" y="326" text-anchor="middle" font-size="10" fill="#3C3489">app, imagen, replicas</text>
+
+  <rect x="45" y="342" width="105" height="34" rx="6" fill="#CEC8F6" stroke="#7F77DD" stroke-width="0.8"/>
+  <text x="97" y="355" text-anchor="middle" font-size="11" font-weight="bold" fill="#26215C">main.tf</text>
+  <text x="97" y="368" text-anchor="middle" font-size="10" fill="#3C3489">genera config IaC</text>
+
+  <rect x="45" y="384" width="105" height="34" rx="6" fill="#CEC8F6" stroke="#7F77DD" stroke-width="0.8"/>
+  <text x="97" y="397" text-anchor="middle" font-size="11" font-weight="bold" fill="#26215C">outputs.tf</text>
+  <text x="97" y="410" text-anchor="middle" font-size="10" fill="#3C3489">app, env, imagen</text>
+
+  <!-- Terraform → Cluster -->
+  <path d="M165 355 L183 355" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-purple)"/>
+
+  <!-- ══ Cluster Kubernetes ══ -->
+  <rect x="183" y="268" width="462" height="368" rx="18" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+  <text x="414" y="294" text-anchor="middle" font-size="13" font-weight="bold" fill="#085041">Cluster Kubernetes (Minikube)</text>
+
+  <!-- Usuario -->
+  <rect x="30" y="452" width="100" height="48" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
+  <text x="80" y="472" text-anchor="middle" font-size="12" font-weight="bold" fill="#2C2C2A">Usuario</text>
+  <text x="80" y="488" text-anchor="middle" font-size="11" fill="#5F5E5A">HTTP :80</text>
+
+  <!-- Docker Hub -->
+  <rect x="30" y="568" width="115" height="48" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+  <text x="87" y="588" text-anchor="middle" font-size="12" font-weight="bold" fill="#0C447C">Docker Hub</text>
+  <text x="87" y="604" text-anchor="middle" font-size="11" fill="#185FA5">tu-usuario/test-api</text>
+
+  <!-- Metrics Server -->
+  <rect x="196" y="314" width="68" height="52" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="1"/>
+  <text x="230" y="335" text-anchor="middle" font-size="11" font-weight="bold" fill="#2C2C2A">Metrics</text>
+  <text x="230" y="351" text-anchor="middle" font-size="11" fill="#5F5E5A">server</text>
+
+  <!-- Service -->
+  <rect x="278" y="314" width="165" height="52" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+  <text x="360" y="335" text-anchor="middle" font-size="12" font-weight="bold" fill="#712B13">Service</text>
+  <text x="360" y="352" text-anchor="middle" font-size="11" fill="#993C1D">LoadBalancer  puerto 80</text>
+
+  <!-- HPA -->
+  <rect x="470" y="314" width="150" height="52" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="545" y="335" text-anchor="middle" font-size="12" font-weight="bold" fill="#633806">HPA</text>
+  <text x="545" y="352" text-anchor="middle" font-size="11" fill="#854F0B">Escala 2 a 10 pods</text>
+
+  <!-- Deployment -->
+  <rect x="470" y="426" width="150" height="52" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+  <text x="545" y="447" text-anchor="middle" font-size="12" font-weight="bold" fill="#085041">Deployment</text>
+  <text x="545" y="464" text-anchor="middle" font-size="11" fill="#0F6E56">Gestiona replicas</text>
+
+  <!-- Pod 1 -->
+  <rect x="196" y="530" width="100" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="246" y="551" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Pod 1</text>
+  <text x="246" y="568" text-anchor="middle" font-size="11" fill="#534AB7">test-api</text>
+
+  <!-- Pod 2 -->
+  <rect x="310" y="530" width="100" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="360" y="551" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Pod 2</text>
+  <text x="360" y="568" text-anchor="middle" font-size="11" fill="#534AB7">test-api</text>
+
+  <!-- Pod N -->
+  <rect x="424" y="530" width="100" height="52" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="474" y="551" text-anchor="middle" font-size="12" font-weight="bold" fill="#3C3489">Pod N</text>
+  <text x="474" y="568" text-anchor="middle" font-size="11" fill="#534AB7">test-api</text>
+
+  <text x="413" y="558" text-anchor="middle" font-size="14" fill="#888780">···</text>
+
+  <!-- ══ FLECHAS cluster ══ -->
   <!-- HPA → Deployment -->
-  <line x1="545" y1="152" x2="545" y2="208" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="545" y1="366" x2="545" y2="424" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <!-- Deployment → Pods -->
-  <path d="M545 262 L545 280 L375 280 L375 298" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M545 478 L545 500 L360 500 L360 528" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- Metrics server → HPA (dashed) -->
-  <line x1="255" y1="126" x2="468" y2="126" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-dash)"/>
+  <!-- Metrics → HPA dashed -->
+  <line x1="264" y1="340" x2="468" y2="340" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-dash)"/>
 
-  <!-- Pods → Metrics (dashed) -->
-  <path d="M250 300 L225 154" fill="none" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-dash)"/>
+  <!-- Pods → Metrics dashed -->
+  <path d="M246 530 L230 368" fill="none" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-dash)"/>
 
-  <!-- Pods → Auto-recuperacion -->
-  <line x1="375" y1="352" x2="375" y2="418" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Usuario → Service -->
+  <path d="M130 466 L278 346" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- Docker Hub → Pods (dashed azul) -->
-  <path d="M135 414 L183 414 L183 328 L193 328" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-blue)"/>
+  <!-- Service → Pods -->
+  <line x1="318" y1="366" x2="253" y2="528" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="360" y1="366" x2="360" y2="528" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="400" y1="366" x2="464" y2="528" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- ── Leyenda ── -->
-  <line x1="200" y1="502" x2="228" y2="502" stroke="#888780" stroke-width="1.5"/>
-  <text x="234" y="506" font-size="11" fill="#5F5E5A">Flujo de trafico</text>
+  <!-- Docker Hub → Pods dashed blue -->
+  <path d="M145 592 L175 592 L175 556 L194 556" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arrow-blue)"/>
 
-  <line x1="310" y1="502" x2="338" y2="502" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3"/>
-  <text x="344" y="506" font-size="11" fill="#5F5E5A">Flujo de metricas</text>
+  <!-- ══ Leyenda ══ -->
+  <line x1="196" y1="648" x2="224" y2="648" stroke="#888780" stroke-width="1.5"/>
+  <text x="230" y="652" font-size="11" fill="#5F5E5A">Trafico</text>
 
-  <line x1="430" y1="502" x2="458" y2="502" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3"/>
-  <text x="464" y="506" font-size="11" fill="#185FA5">Pull de imagen</text>
+  <line x1="280" y1="648" x2="308" y2="648" stroke="#B4B2A9" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="314" y="652" font-size="11" fill="#5F5E5A">Metricas</text>
+
+  <line x1="370" y1="648" x2="398" y2="648" stroke="#185FA5" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="404" y="652" font-size="11" fill="#185FA5">Pull imagen</text>
+
+  <line x1="470" y1="648" x2="498" y2="648" stroke="#534AB7" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="504" y="652" font-size="11" fill="#534AB7">IaC config</text>
+
+  <line x1="560" y1="648" x2="588" y2="648" stroke="#854F0B" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="594" y="652" font-size="11" fill="#854F0B">CI/CD trigger</text>
 </svg>
