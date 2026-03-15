@@ -23,6 +23,15 @@ pipeline {
             }
         }
 
+        stage('Kubernetes Validation') {
+            steps {
+                echo 'Validando manifiestos de Kubernetes...'
+                bat 'type kubernetes\\deployment.yaml'
+                bat 'type kubernetes\\service.yaml'
+                bat 'type kubernetes\\hpa.yaml'
+            }
+        }
+
         stage('Deploy Simulation') {
             steps {
                 bat '''
